@@ -25,3 +25,8 @@
 ### Phase 4 — GitHub Actions CI/CD実装完了
 - **箇所**: `.github/workflows/daily_report.yml`, `.github/workflows/test.yml`, `src/main.py`, `.gitignore`
 - **内容**: 毎朝レポート配信ワークフロー（cron平日09:00 JST + workflow_dispatch）、PR時テスト自動実行ワークフローを作成。エントリーポイント`main.py`を実装（fetch→generate→notify）。`sys.path`修正でGitHub Actions上のimportパスを解決。`.gitignore`追加・`.DS_Store`除外。TODO.md Phase 4 を更新。
+
+### BUG FIX — GitHub Actions実行時エラー修正
+- **箇所**: `templates/report.j2` (11行目), `src/fetch_indicators.py` (99-114行目)
+- **原因**: (1) Jinja2テンプレートで `{{ usdjpy_diff:+.2f }}` というPython f-string構文を使用していたが、Jinja2では `{{ "%+.2f"|format(usdjpy_diff) }}` が正しい構文。(2) e-Stat APIレスポンスのキー構造が想定と異なりKeyErrorが発生。
+- **修正**: (1) テンプレートの書式指定をJinja2のformatフィルタに修正。(2) e-Stat APIのレスポンスパースを`.get()`チェーンで堅牢化。

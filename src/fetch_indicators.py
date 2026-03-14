@@ -14,7 +14,7 @@ load_dotenv()
 
 ESTAT_API_KEY = os.getenv("ESTAT_API_KEY")
 
-# 日銀IMAS API
+# 日銀IMAS API（JSON APIが不安定なためフォールバック値を併用）
 BOJ_BASE_URL = "https://www.stat-search.boj.or.jp/ssi/mtsearch.do"
 # 総務省e-Stat API
 ESTAT_BASE_URL = "https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData"
@@ -100,13 +100,18 @@ def fetch_cpi() -> dict:
         response = requests.get(ESTAT_BASE_URL, params=params, timeout=10)
         response.raise_for_status()
         data = response.json()
-        values = data["GET_STATS_DATA"]["STATISTICAL_DATA"]["DATA_INF"]["VALUE"]
+        stat_data = data.get("GET_STATS_DATA", {})
+        result = stat_data.get("STATISTICAL_DATA", stat_data.get("RESULT", {}))
+        data_inf = result.get("DATA_INF", {})
+        values = data_inf.get("VALUE", [])
+        if not values:
+            raise ValueError("e-Stat APIからデータが取得できませんでした")
         latest = values[-1]
         prev = values[-2] if len(values) >= 2 else latest
         return {
             "total": float(latest["$"]),
             "core": float(latest["$"]) - 0.4,  # コアCPIの概算
-            "date": latest["@time"],
+            "date": latest.get("@time", "不明"),
             "prev_total": float(prev["$"]),
         }
     except Exception as e:
