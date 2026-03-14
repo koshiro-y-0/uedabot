@@ -1,0 +1,33 @@
+name: 植田総裁Bot - 毎朝レポート配信
+
+on:
+  # 平日 09:00 JST (= UTC 00:00)
+  schedule:
+    - cron: "0 0 * * 1-5"
+  # 手動実行（テスト・デバッグ用）
+  workflow_dispatch:
+
+jobs:
+  send-daily-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: Python 3.11 をセットアップ
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: 依存ライブラリをインストール
+        run: pip install -r requirements.txt
+
+      - name: 経済指標を取得してレポートを送信
+        env:
+          ESTAT_API_KEY: ${{ secrets.ESTAT_API_KEY }}
+          LINE_CHANNEL_TOKEN: ${{ secrets.LINE_CHANNEL_TOKEN }}
+          LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python src/main.py
