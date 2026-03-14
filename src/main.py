@@ -31,7 +31,7 @@ def main():
     print("--- 生成されたレポート ---")
     print(report)
     print("-------------------------")
-    send_all(report)
+    send_all(report, with_quick_reply=True)
 
 
 if __name__ == "__main__":

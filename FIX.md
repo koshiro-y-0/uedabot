@@ -26,6 +26,13 @@
 - **箇所**: `.github/workflows/daily_report.yml`, `.github/workflows/test.yml`, `src/main.py`, `.gitignore`
 - **内容**: 毎朝レポート配信ワークフロー（cron平日09:00 JST + workflow_dispatch）、PR時テスト自動実行ワークフローを作成。エントリーポイント`main.py`を実装（fetch→generate→notify）。`sys.path`修正でGitHub Actions上のimportパスを解決。`.gitignore`追加・`.DS_Store`除外。TODO.md Phase 4 を更新。
 
+### Phase 7 — Quick Reply ボタン対応
+- **箇所**: `src/notify.py`, `src/main.py`, `templates/report.j2`
+- **内容**:
+  - `notify.py`: `send_line()` に `with_quick_reply` パラメータ追加。5つの選択ボタン（為替/金利/CPI/短観/注目）を Quick Reply として付与
+  - `main.py`: 毎朝配信時に `send_all(report, with_quick_reply=True)` で Quick Reply 付きメッセージを送信
+  - `report.j2`: メッセージ末尾に「詳しく知りたい項目をタップ ↓」案内文を追加
+
 ### Phase 6 — 詳細データ取得モジュール実装
 - **箇所**: `src/fetch_detail.py`, `src/generate_detail.py`, `templates/detail_*.j2`, `tests/test_detail.py`
 - **内容**:
