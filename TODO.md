@@ -67,23 +67,23 @@
 ## Phase 3：通知モジュール（ブランチ: `feature/notify`）
 
 ### LINE Messaging API
-- [ ] LINE Messaging API の Push Message 実装
-- [ ] 環境変数（`LINE_CHANNEL_TOKEN`・`LINE_USER_ID`）から認証情報を読み込む処理を実装
-- [ ] 送信成功・失敗のログ出力を実装
+- [x] LINE Messaging API の Push Message 実装
+- [x] 環境変数（`LINE_CHANNEL_TOKEN`・`LINE_USER_ID`）から認証情報を読み込む処理を実装
+- [x] 送信成功・失敗のログ出力を実装
 
 ### Discord Webhook
-- [ ] Discord Webhook への POST リクエスト実装
-- [ ] 環境変数（`DISCORD_WEBHOOK_URL`）から読み込む処理を実装
+- [x] Discord Webhook への POST リクエスト実装
+- [x] 環境変数（`DISCORD_WEBHOOK_URL`）から読み込む処理を実装
 
 ### アラートロジック
-- [ ] 為替アラート：USD/JPY が前日比 ±1.5円以上で緊急通知
-- [ ] 政策変更アラート：金利変動時に即時通知
-- [ ] 物価動向アラート：CPI が前月比 ±0.5%以上で通知
-- [ ] アラートと通常レポートを一元管理する `notify.py` を実装
+- [x] 為替アラート：USD/JPY が前日比 ±1.5円以上で緊急通知
+- [x] 政策変更アラート：金利変動時に即時通知
+- [x] 物価動向アラート：CPI が前月比 ±0.5%以上で通知
+- [x] アラートと通常レポートを一元管理する `notify.py` を実装
 
 ### 成果物
-- [ ] `src/notify.py` を作成・PR提出
-- [ ] 通知テスト（ローカルで手動実行して動作確認）
+- [x] `src/notify.py` を作成・PR提出
+- [ ] 通知テスト（ローカルで手動実行して動作確認）※Phase 4で実施
 
 ---
 
