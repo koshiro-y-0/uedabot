@@ -4,11 +4,15 @@ fetch_indicators.py
 """
 
 import os
+import locale
 import requests
 import pandas as pd
 import yfinance as yf
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
+
+# 曜日の日本語表記
+WEEKDAY_JP = ["月", "火", "水", "木", "金", "土", "日"]
 
 load_dotenv()
 
@@ -75,7 +79,8 @@ def fetch_tankan_di() -> dict:
             }
     except Exception as e:
         print(f"[WARN] 短観DI取得エラー: {e}")
-    return {"di": 12, "date": datetime.now().strftime("%Y-Q%q")}
+    quarter = (datetime.now().month - 1) // 3 + 1
+    return {"di": 12, "date": f"{datetime.now().year}-Q{quarter}"}
 
 
 def fetch_cpi() -> dict:
@@ -145,6 +150,23 @@ def fetch_forex() -> dict:
     return {"usdjpy": 152.30, "eurjpy": 163.45, "usdjpy_prev": 152.30}
 
 
+QUARTER_MONTH = {"Q1": "3月調査", "Q2": "6月調査", "Q3": "9月調査", "Q4": "12月調査"}
+
+
+def _format_tankan_date(raw: str) -> str:
+    """短観日付を読みやすい形式に変換する（例: "2025-Q4" → "2025年Q4（12月調査）"）"""
+    try:
+        parts = raw.split("-")
+        year = parts[0]
+        quarter = parts[1]
+        month_label = QUARTER_MONTH.get(quarter, "")
+        if month_label:
+            return f"{year}年{quarter}（{month_label}）"
+        return raw
+    except (IndexError, ValueError):
+        return raw
+
+
 def fetch_all() -> dict:
     """
     すべての指標を取得してまとめて返す
@@ -156,14 +178,22 @@ def fetch_all() -> dict:
     cpi = fetch_cpi()
     forex = fetch_forex()
 
+    now = datetime.now()
+    weekday = WEEKDAY_JP[now.weekday()]
+
+    # 短観日付を読みやすいフォーマットに変換（例: "2025-Q4" → "2025年Q4（12月調査）"）
+    tankan_date_raw = tankan["date"]
+    tankan_date_formatted = _format_tankan_date(tankan_date_raw)
+
     return {
-        "fetch_date": datetime.now().strftime("%Y年%-m月%-d日"),
-        "fetch_time": datetime.now().strftime("%H:%M"),
+        "fetch_date": now.strftime("%Y年%-m月%-d日"),
+        "fetch_weekday": weekday,
+        "fetch_time": now.strftime("%H:%M"),
         "policy_rate": policy["rate"],
         "policy_rate_prev": policy["prev_rate"],
         "policy_rate_date": policy["date"],
         "tankan_di": tankan["di"],
-        "tankan_date": tankan["date"],
+        "tankan_date": tankan_date_formatted,
         "cpi_total": cpi["total"],
         "cpi_core": cpi["core"],
         "cpi_date": cpi["date"],

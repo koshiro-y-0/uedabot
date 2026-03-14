@@ -108,12 +108,13 @@ if __name__ == "__main__":
     # テスト用ダミーデータでレポート生成を確認
     dummy = {
         "fetch_date": "2026年3月14日",
+        "fetch_weekday": "土",
         "fetch_time": "09:00",
         "policy_rate": 0.50,
         "policy_rate_prev": 0.50,
         "policy_rate_date": "2026-01",
         "tankan_di": 12,
-        "tankan_date": "2025-Q4",
+        "tankan_date": "2025年Q4（12月調査）",
         "cpi_total": 3.2,
         "cpi_core": 2.8,
         "cpi_date": "2026年1月",

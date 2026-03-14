@@ -26,6 +26,14 @@
 - **箇所**: `.github/workflows/daily_report.yml`, `.github/workflows/test.yml`, `src/main.py`, `.gitignore`
 - **内容**: 毎朝レポート配信ワークフロー（cron平日09:00 JST + workflow_dispatch）、PR時テスト自動実行ワークフローを作成。エントリーポイント`main.py`を実装（fetch→generate→notify）。`sys.path`修正でGitHub Actions上のimportパスを解決。`.gitignore`追加・`.DS_Store`除外。TODO.md Phase 4 を更新。
 
+### Phase 5 — 日付・曜日表示の改善
+- **箇所**: `src/fetch_indicators.py`, `templates/report.j2`, `src/generate_report.py`
+- **内容**:
+  - レポートヘッダー・為替時刻に曜日（月〜日）を追加（例：`2026年3月14日（金）`）
+  - USD/JPYの前日比を常に表示するよう変更（アラート時のみ → 常時表示）
+  - 短観日付を `2025-Q4` → `2025年Q4（12月調査）` にフォーマット改善
+  - `%q`（無効なstrftime指令）のフォールバック修正
+
 ### BUG FIX — GitHub Actions実行時エラー修正
 - **箇所**: `templates/report.j2` (11行目), `src/fetch_indicators.py` (99-114行目)
 - **原因**: (1) Jinja2テンプレートで `{{ usdjpy_diff:+.2f }}` というPython f-string構文を使用していたが、Jinja2では `{{ "%+.2f"|format(usdjpy_diff) }}` が正しい構文。(2) e-Stat APIレスポンスのキー構造が想定と異なりKeyErrorが発生。
