@@ -26,6 +26,13 @@
 - **箇所**: `.github/workflows/daily_report.yml`, `.github/workflows/test.yml`, `src/main.py`, `.gitignore`
 - **内容**: 毎朝レポート配信ワークフロー（cron平日09:00 JST + workflow_dispatch）、PR時テスト自動実行ワークフローを作成。エントリーポイント`main.py`を実装（fetch→generate→notify）。`sys.path`修正でGitHub Actions上のimportパスを解決。`.gitignore`追加・`.DS_Store`除外。TODO.md Phase 4 を更新。
 
+### Phase 9 — 結合テスト・README更新
+- **箇所**: `tests/test_integration.py`, `README.md`
+- **内容**:
+  - 結合テスト15件作成（全5カテゴリのE2Eフロー・テンプレートエラーチェック・署名検証・全角コロン対応）
+  - README.mdをv2.0対応に全面更新（Quick Reply機能・Vercelデプロイ手順・ディレクトリ構成）
+  - 全テスト43件通過を確認
+
 ### Phase 8 — LINE Webhook + Vercel Serverless Function
 - **箇所**: `api/webhook.py`, `vercel.json`, `tests/test_webhook.py`
 - **内容**:
