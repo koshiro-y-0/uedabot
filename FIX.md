@@ -26,6 +26,14 @@
 - **箇所**: `.github/workflows/daily_report.yml`, `.github/workflows/test.yml`, `src/main.py`, `.gitignore`
 - **内容**: 毎朝レポート配信ワークフロー（cron平日09:00 JST + workflow_dispatch）、PR時テスト自動実行ワークフローを作成。エントリーポイント`main.py`を実装（fetch→generate→notify）。`sys.path`修正でGitHub Actions上のimportパスを解決。`.gitignore`追加・`.DS_Store`除外。TODO.md Phase 4 を更新。
 
+### Phase 6 — 詳細データ取得モジュール実装
+- **箇所**: `src/fetch_detail.py`, `src/generate_detail.py`, `templates/detail_*.j2`, `tests/test_detail.py`
+- **内容**:
+  - `fetch_detail.py`: 5カテゴリ（為替/金利/CPI/短観/注目）の詳細データ取得を実装
+  - `generate_detail.py`: Jinja2テンプレートによる詳細レポート生成。`parse_detail_command()`でユーザーメッセージ解析
+  - テンプレート5種（`detail_forex.j2`等）を作成
+  - テスト16件作成（データ取得・レポート生成・コマンド解析）
+
 ### Phase 5 — 日付・曜日表示の改善
 - **箇所**: `src/fetch_indicators.py`, `templates/report.j2`, `src/generate_report.py`
 - **内容**:

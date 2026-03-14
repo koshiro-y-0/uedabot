@@ -124,14 +124,14 @@
 
 ## Phase 6：詳細データ取得モジュール（ブランチ: `feature/detail-data`）
 
-- [ ] `src/fetch_detail.py` を作成
-  - [ ] 為替5日間推移・週間高値/安値の取得
-  - [ ] CPI詳細（総合/コア/食料エネルギー除く）の取得
-  - [ ] 短観詳細（製造業/非製造業DI比較）の取得
-  - [ ] 経済イベントカレンダー（定数定義）
-- [ ] `src/generate_detail.py` を作成（詳細レポート生成）
-- [ ] `templates/detail_*.j2` テンプレート5種を作成
-- [ ] `tests/test_detail.py` を作成
+- [x] `src/fetch_detail.py` を作成
+  - [x] 為替5日間推移・週間高値/安値の取得
+  - [x] CPI詳細（総合/コア/食料エネルギー除く）の取得
+  - [x] 短観詳細（製造業/非製造業DI比較）の取得
+  - [x] 経済イベントカレンダー（定数定義）
+- [x] `src/generate_detail.py` を作成（詳細レポート生成）
+- [x] `templates/detail_*.j2` テンプレート5種を作成
+- [x] `tests/test_detail.py` を作成
 - [ ] PR提出
 
 ---
