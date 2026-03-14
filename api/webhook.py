@@ -20,6 +20,7 @@ if PROJECT_ROOT not in sys.path:
 
 import requests
 from src.generate_detail import generate_detail_report, parse_detail_command
+from src.notify import _build_quick_reply
 
 LINE_CHANNEL_SECRET = os.getenv("LINE_CHANNEL_SECRET", "")
 LINE_CHANNEL_TOKEN = os.getenv("LINE_CHANNEL_TOKEN", "")
@@ -49,7 +50,7 @@ def verify_signature(body: str, signature: str) -> bool:
 
 def reply_message(reply_token: str, text: str) -> bool:
     """
-    LINE Reply Message API でメッセージを返信する
+    LINE Reply Message API でメッセージを返信する（Quick Reply ボタン付き）
     Args:
         reply_token: Webhook イベントの replyToken
         text: 返信するテキスト
@@ -61,9 +62,10 @@ def reply_message(reply_token: str, text: str) -> bool:
         "Authorization": f"Bearer {LINE_CHANNEL_TOKEN}",
         "Content-Type": "application/json",
     }
+    text_message = {"type": "text", "text": text, "quickReply": _build_quick_reply()}
     payload = {
         "replyToken": reply_token,
-        "messages": [{"type": "text", "text": text}],
+        "messages": [text_message],
     }
     try:
         response = requests.post(url, json=payload, headers=headers, timeout=10)

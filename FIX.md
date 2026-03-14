@@ -26,6 +26,11 @@
 - **箇所**: `.github/workflows/daily_report.yml`, `.github/workflows/test.yml`, `src/main.py`, `.gitignore`
 - **内容**: 毎朝レポート配信ワークフロー（cron平日09:00 JST + workflow_dispatch）、PR時テスト自動実行ワークフローを作成。エントリーポイント`main.py`を実装（fetch→generate→notify）。`sys.path`修正でGitHub Actions上のimportパスを解決。`.gitignore`追加・`.DS_Store`除外。TODO.md Phase 4 を更新。
 
+### BUG FIX — Quick Reply ボタンが詳細レポート返信後に消える問題
+- **箇所**: `api/webhook.py`
+- **原因**: Reply Message にQuick Replyボタンを付与していなかったため、詳細レポート返信後にボタンが消えていた
+- **修正**: `reply_message()` で返信するメッセージにも `quickReply` を付与し、ボタンを常に表示するよう変更
+
 ### Phase 9 — 結合テスト・README更新
 - **箇所**: `tests/test_integration.py`, `README.md`
 - **内容**:
