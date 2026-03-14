@@ -19,24 +19,24 @@
 ## Phase 1：データ取得（ブランチ: `feature/fetch-indicators`）
 
 ### 日銀 IMAS API
-- [ ] 日銀IMAS APIの仕様確認（エンドポイント・パラメータ）
-- [ ] 政策金利データの取得・パース実装
-- [ ] 短観（大企業製造業DI）データの取得・パース実装
-- [ ] 取得データをDataFrameに整形する処理を実装
+- [x] 日銀IMAS APIの仕様確認（エンドポイント・パラメータ）
+- [x] 政策金利データの取得・パース実装
+- [x] 短観（大企業製造業DI）データの取得・パース実装
+- [x] 取得データをDataFrameに整形する処理を実装
 
 ### 総務省 e-Stat API
-- [ ] e-Stat APIの仕様確認（エンドポイント・statsDataId）
-- [ ] CPI（消費者物価指数）総合・コアの取得実装
-- [ ] 最新月のデータのみ抽出するロジックを実装
+- [x] e-Stat APIの仕様確認（エンドポイント・statsDataId）
+- [x] CPI（消費者物価指数）総合・コアの取得実装
+- [x] 最新月のデータのみ抽出するロジックを実装
 
 ### Yahoo Finance（為替）
-- [ ] `yfinance` ライブラリの調査・採用可否確認
-- [ ] USD/JPY・EUR/JPY のリアルタイムレート取得実装
-- [ ] 前日比の計算ロジックを実装
+- [x] `yfinance` ライブラリの調査・採用可否確認
+- [x] USD/JPY・EUR/JPY のリアルタイムレート取得実装
+- [x] 前日比の計算ロジックを実装
 
 ### 成果物
-- [ ] `src/fetch_indicators.py` を作成・PR提出
-- [ ] `tests/test_fetch.py` を作成（各API取得のユニットテスト）
+- [x] `src/fetch_indicators.py` を作成・PR提出
+- [x] `tests/test_fetch.py` を作成（各API取得のユニットテスト）
 
 ---
 
