@@ -21,3 +21,7 @@
 ### Phase 3 — 通知モジュール実装完了
 - **箇所**: `src/notify.py`
 - **内容**: LINE Messaging API（Push Message）とDiscord Webhookへの通知送信を実装。環境変数未設定時のスキップ処理・送信成功/失敗のログ出力を実装。アラート判定ロジック（為替±1.5円/金利変動/CPI±0.5%）を`check_alerts()`で実装。`send_all()`で全チャンネルへの一括送信対応。TODO.md Phase 3 を全チェック。
+
+### Phase 4 — GitHub Actions CI/CD実装完了
+- **箇所**: `.github/workflows/daily_report.yml`, `.github/workflows/test.yml`, `src/main.py`, `.gitignore`
+- **内容**: 毎朝レポート配信ワークフロー（cron平日09:00 JST + workflow_dispatch）、PR時テスト自動実行ワークフローを作成。エントリーポイント`main.py`を実装（fetch→generate→notify）。`sys.path`修正でGitHub Actions上のimportパスを解決。`.gitignore`追加・`.DS_Store`除外。TODO.md Phase 4 を更新。
