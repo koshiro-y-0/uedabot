@@ -112,11 +112,65 @@
 
 ---
 
-## 拡張機能（将来対応）
+## Phase 5：日付・曜日表示の改善（ブランチ: `feature/date-format`）
+
+- [ ] `fetch_indicators.py` の日付フォーマットに曜日を追加（例：`2026年3月14日（金）`）
+- [ ] `report.j2` に日付・曜日・前日比情報を追加
+- [ ] 短観の日付表示を改善（`2025-Q4` → `2025年Q4（12月調査）`）
+- [ ] USD/JPYの前日比を常に表示するよう修正
+- [ ] PR提出
+
+---
+
+## Phase 6：詳細データ取得モジュール（ブランチ: `feature/detail-data`）
+
+- [ ] `src/fetch_detail.py` を作成
+  - [ ] 為替5日間推移・週間高値/安値の取得
+  - [ ] CPI詳細（総合/コア/食料エネルギー除く）の取得
+  - [ ] 短観詳細（製造業/非製造業DI比較）の取得
+  - [ ] 経済イベントカレンダー（定数定義）
+- [ ] `src/generate_detail.py` を作成（詳細レポート生成）
+- [ ] `templates/detail_*.j2` テンプレート5種を作成
+- [ ] `tests/test_detail.py` を作成
+- [ ] PR提出
+
+---
+
+## Phase 7：Quick Reply ボタン対応（ブランチ: `feature/quick-reply`）
+
+- [ ] `notify.py` を改修 — Quick Reply ボタン付き Push Message に対応
+- [ ] 5つの選択ボタン（為替詳細/金利詳細/CPI詳細/短観詳細/今日の注目）を実装
+- [ ] GitHub Actions からの毎朝配信で Quick Reply が表示されることを確認
+- [ ] PR提出
+
+---
+
+## Phase 8：LINE Webhook + Vercel（ブランチ: `feature/webhook`）
+
+- [ ] `api/webhook.py` を作成（Vercel Serverless Function）
+- [ ] LINE Webhook の署名検証（`LINE_CHANNEL_SECRET`）を実装
+- [ ] ユーザーメッセージ `詳細:〇〇` の解析 → Reply Message で詳細情報を返す処理を実装
+- [ ] `vercel.json` 設定ファイルを作成
+- [ ] Vercel にデプロイ・LINE Developers で Webhook URL を設定
+- [ ] `LINE_CHANNEL_SECRET` を GitHub Secrets に追加
+- [ ] PR提出
+
+---
+
+## Phase 9：詳細テンプレート・結合テスト（ブランチ: `feature/detail-templates`）
+
+- [ ] 全5種の詳細テンプレートの仕上げ・動作確認
+- [ ] Webhook → 詳細取得 → Reply の一連フローをテスト
+- [ ] README.md にv2.0の使い方を追記
+- [ ] 全体の動作確認完了
+- [ ] PR提出
+
+---
+
+## 将来対応
 
 - [ ] Streamlit ダッシュボードの追加（指標の時系列グラフ可視化）
 - [ ] GitHub Pages でのレポートアーカイブ公開
-- [ ] 短観詳細分析（製造業・非製造業の比較レポート）
 - [ ] Claude Haiku API によるAI要約機能の追加
 
 ---
@@ -125,10 +179,16 @@
 
 ```
 main
-├── feature/fetch-indicators    # Phase 1
-├── feature/template-engine     # Phase 2
-├── feature/notify              # Phase 3
-└── feature/github-actions      # Phase 4
+├── feature/fetch-indicators    # Phase 1 ✅
+├── feature/template-engine     # Phase 2 ✅
+├── feature/notify              # Phase 3 ✅
+├── feature/github-actions      # Phase 4 ✅
+├── fix/template-syntax-error   # Bug Fix  ✅
+├── feature/date-format         # Phase 5
+├── feature/detail-data         # Phase 6
+├── feature/quick-reply         # Phase 7
+├── feature/webhook             # Phase 8
+└── feature/detail-templates    # Phase 9
 ```
 
 各フェーズ完了後にPRを作成し、レビュー後に `main` へマージします。
