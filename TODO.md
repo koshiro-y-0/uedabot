@@ -90,16 +90,16 @@
 ## Phase 4：GitHub Actions / CI/CD（ブランチ: `feature/github-actions`）
 
 ### ワークフロー設定
-- [ ] `.github/workflows/daily_report.yml` を作成
-  - [ ] cron スケジュール設定（平日 09:00 JST = UTC 00:00）
-  - [ ] Python 環境セットアップ（`actions/setup-python`）
-  - [ ] 依存ライブラリインストール（`pip install -r requirements.txt`）
-  - [ ] `fetch_indicators.py` → `generate_report.py` → `notify.py` の順で実行
+- [x] `.github/workflows/daily_report.yml` を作成
+  - [x] cron スケジュール設定（平日 09:00 JST = UTC 00:00）
+  - [x] Python 環境セットアップ（`actions/setup-python`）
+  - [x] 依存ライブラリインストール（`pip install -r requirements.txt`）
+  - [x] `fetch_indicators.py` → `generate_report.py` → `notify.py` の順で実行
 
 ### テスト・品質管理
-- [ ] GitHub Actions でのテスト自動実行を設定（PR時にテストが走るようにする）
-- [ ] `pytest` で全テストが通ることを確認
-- [ ] ワークフローの手動実行（`workflow_dispatch`）を追加してデバッグできるようにする
+- [x] GitHub Actions でのテスト自動実行を設定（PR時にテストが走るようにする）
+- [ ] `pytest` で全テストが通ることを確認 ※マージ後に手動トリガーで確認
+- [x] ワークフローの手動実行（`workflow_dispatch`）を追加してデバッグできるようにする
 
 ### 最終確認
 - [ ] 本番環境（GitHub Actions）での動作確認（手動トリガーで1回実行）
@@ -107,7 +107,7 @@
 - [ ] エラー時のログ確認方法をREADMEに追記
 
 ### 成果物
-- [ ] `.github/workflows/daily_report.yml` を作成・PR提出
+- [x] `.github/workflows/daily_report.yml` を作成・PR提出
 - [ ] 全体の動作確認完了
 
 ---

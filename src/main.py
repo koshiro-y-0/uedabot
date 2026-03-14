@@ -4,6 +4,12 @@ GitHub Actions から呼び出されるエントリーポイント
 fetch → generate → notify の一連の処理を実行する
 """
 
+import sys
+from pathlib import Path
+
+# src/ ディレクトリをモジュール検索パスに追加
+sys.path.insert(0, str(Path(__file__).parent))
+
 from fetch_indicators import fetch_all
 from generate_report import generate_report, generate_alert
 from notify import send_all, check_alerts
