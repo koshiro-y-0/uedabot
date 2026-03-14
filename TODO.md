@@ -138,8 +138,8 @@
 
 ## Phase 7：Quick Reply ボタン対応（ブランチ: `feature/quick-reply`）
 
-- [ ] `notify.py` を改修 — Quick Reply ボタン付き Push Message に対応
-- [ ] 5つの選択ボタン（為替詳細/金利詳細/CPI詳細/短観詳細/今日の注目）を実装
+- [x] `notify.py` を改修 — Quick Reply ボタン付き Push Message に対応
+- [x] 5つの選択ボタン（為替詳細/金利詳細/CPI詳細/短観詳細/今日の注目）を実装
 - [ ] GitHub Actions からの毎朝配信で Quick Reply が表示されることを確認
 - [ ] PR提出
 

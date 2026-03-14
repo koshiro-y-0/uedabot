@@ -14,11 +14,39 @@ LINE_USER_ID = os.getenv("LINE_USER_ID")
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 
 
-def send_line(message: str) -> bool:
+# Quick Reply ボタン定義（詳細情報の選択肢）
+QUICK_REPLY_ITEMS = [
+    {"label": "📊 為替詳細", "text": "詳細:為替"},
+    {"label": "🎯 金利詳細", "text": "詳細:金利"},
+    {"label": "📈 CPI詳細", "text": "詳細:CPI"},
+    {"label": "🏭 短観詳細", "text": "詳細:短観"},
+    {"label": "📰 今日の注目", "text": "詳細:注目"},
+]
+
+
+def _build_quick_reply() -> dict:
+    """Quick Reply ボタンのペイロードを構築する"""
+    return {
+        "items": [
+            {
+                "type": "action",
+                "action": {
+                    "type": "message",
+                    "label": item["label"],
+                    "text": item["text"],
+                },
+            }
+            for item in QUICK_REPLY_ITEMS
+        ]
+    }
+
+
+def send_line(message: str, with_quick_reply: bool = False) -> bool:
     """
     LINE Messaging API でメッセージを送信する
     Args:
         message: 送信するテキスト
+        with_quick_reply: True の場合、Quick Reply ボタンを付与する
     Returns:
         送信成功ならTrue
     """
@@ -31,14 +59,18 @@ def send_line(message: str) -> bool:
         "Authorization": f"Bearer {LINE_CHANNEL_TOKEN}",
         "Content-Type": "application/json",
     }
+    text_message = {"type": "text", "text": message}
+    if with_quick_reply:
+        text_message["quickReply"] = _build_quick_reply()
+
     payload = {
         "to": LINE_USER_ID,
-        "messages": [{"type": "text", "text": message}],
+        "messages": [text_message],
     }
     try:
         response = requests.post(url, json=payload, headers=headers, timeout=10)
         response.raise_for_status()
-        print("[OK] LINE送信成功")
+        print("[OK] LINE送信成功" + ("（Quick Reply付き）" if with_quick_reply else ""))
         return True
     except requests.HTTPError as e:
         print(f"[ERROR] LINE送信失敗: {e.response.status_code} {e.response.text}")
@@ -74,11 +106,14 @@ def send_discord(message: str) -> bool:
         return False
 
 
-def send_all(message: str) -> None:
+def send_all(message: str, with_quick_reply: bool = False) -> None:
     """
     設定済みのすべての通知先にメッセージを送信する
+    Args:
+        message: 送信するテキスト
+        with_quick_reply: True の場合、LINE に Quick Reply ボタンを付与する
     """
-    line_ok = send_line(message)
+    line_ok = send_line(message, with_quick_reply=with_quick_reply)
     discord_ok = send_discord(message)
 
     if not line_ok and not discord_ok:
