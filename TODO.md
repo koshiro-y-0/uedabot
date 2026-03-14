@@ -147,10 +147,10 @@
 
 ## Phase 8：LINE Webhook + Vercel（ブランチ: `feature/webhook`）
 
-- [ ] `api/webhook.py` を作成（Vercel Serverless Function）
-- [ ] LINE Webhook の署名検証（`LINE_CHANNEL_SECRET`）を実装
-- [ ] ユーザーメッセージ `詳細:〇〇` の解析 → Reply Message で詳細情報を返す処理を実装
-- [ ] `vercel.json` 設定ファイルを作成
+- [x] `api/webhook.py` を作成（Vercel Serverless Function）
+- [x] LINE Webhook の署名検証（`LINE_CHANNEL_SECRET`）を実装
+- [x] ユーザーメッセージ `詳細:〇〇` の解析 → Reply Message で詳細情報を返す処理を実装
+- [x] `vercel.json` 設定ファイルを作成
 - [ ] Vercel にデプロイ・LINE Developers で Webhook URL を設定
 - [ ] `LINE_CHANNEL_SECRET` を GitHub Secrets に追加
 - [ ] PR提出
