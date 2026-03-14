@@ -6,13 +6,13 @@
 
 ## 事前準備
 
-- [ ] GitHub Secretsに環境変数を登録する
-  - [ ] `ESTAT_API_KEY`（e-stat.go.jp で無料登録して取得）
-  - [ ] `LINE_CHANNEL_TOKEN`（LINE Developers で取得）
-  - [ ] `LINE_USER_ID`（LINE Developers コンソールで確認）
-  - [ ] `DISCORD_WEBHOOK_URL`（Discordサーバー設定で生成）
-- [ ] `requirements.txt` を作成する
-- [ ] `README.md` を作成する（プロジェクト概要・セットアップ手順）
+- [x] GitHub Secretsに環境変数を登録する
+  - [x] `ESTAT_API_KEY`（e-stat.go.jp で無料登録して取得）
+  - [x] `LINE_CHANNEL_TOKEN`（LINE Developers で取得）
+  - [x] `LINE_USER_ID`（LINE Developers コンソールで確認）
+  - [ ] `DISCORD_WEBHOOK_URL`（Discordサーバー設定で生成）※後回し
+- [x] `requirements.txt` を作成する
+- [x] `README.md` を作成する（プロジェクト概要・セットアップ手順）
 
 ---
 
