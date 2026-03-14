@@ -17,3 +17,7 @@
 ### Phase 2 — テンプレートエンジン実装完了
 - **箇所**: `src/generate_report.py`, `templates/report.j2`
 - **内容**: Jinja2テンプレートで植田総裁口調レポートを生成。金利変動（変化なし/引上げ/引下げ）・CPI変動（上昇/低下）・為替急変の6パターンのコメント自動選択を実装。アラートメッセージ生成（為替/金利変更/物価）も対応。TODO.md Phase 2 を全チェック。
+
+### Phase 3 — 通知モジュール実装完了
+- **箇所**: `src/notify.py`
+- **内容**: LINE Messaging API（Push Message）とDiscord Webhookへの通知送信を実装。環境変数未設定時のスキップ処理・送信成功/失敗のログ出力を実装。アラート判定ロジック（為替±1.5円/金利変動/CPI±0.5%）を`check_alerts()`で実装。`send_all()`で全チャンネルへの一括送信対応。TODO.md Phase 3 を全チェック。
