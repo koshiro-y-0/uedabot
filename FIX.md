@@ -26,6 +26,13 @@
 - **箇所**: `.github/workflows/daily_report.yml`, `.github/workflows/test.yml`, `src/main.py`, `.gitignore`
 - **内容**: 毎朝レポート配信ワークフロー（cron平日09:00 JST + workflow_dispatch）、PR時テスト自動実行ワークフローを作成。エントリーポイント`main.py`を実装（fetch→generate→notify）。`sys.path`修正でGitHub Actions上のimportパスを解決。`.gitignore`追加・`.DS_Store`除外。TODO.md Phase 4 を更新。
 
+### Phase 8 — LINE Webhook + Vercel Serverless Function
+- **箇所**: `api/webhook.py`, `vercel.json`, `tests/test_webhook.py`
+- **内容**:
+  - `api/webhook.py`: LINE Webhook受信 → 署名検証 → `詳細:〇〇` コマンド解析 → Reply Message で詳細レポートを返信
+  - `vercel.json`: Vercel Serverless Function の設定（`/api/webhook` ルート）
+  - テスト8件作成（署名検証3件 + イベント処理5件）
+
 ### Phase 7 — Quick Reply ボタン対応
 - **箇所**: `src/notify.py`, `src/main.py`, `templates/report.j2`
 - **内容**:
