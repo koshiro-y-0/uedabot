@@ -1,4 +1,4 @@
-🏦 【日銀レポート】{{ fetch_date }} {{ fetch_time }}配信
+🏦 【日銀レポート】{{ fetch_date }}（{{ fetch_weekday }}）{{ fetch_time }}配信
 ━━━━━━━━━━━━━━━━━━━━
 📊 本日の主要指標サマリー
 ━━━━━━━━━━━━━━━━━━━━
@@ -7,13 +7,13 @@
 
    →「{{ policy_comment }}」
 
-💱 為替相場（{{ fetch_time }}時点）
-   USD/JPY：{{ "%.2f"|format(usdjpy) }}円{% if forex_alert %}  ⚠️ 急変注意（前日比{{ "%+.2f"|format(usdjpy_diff) }}円）{% endif %}
+💱 為替相場（{{ fetch_date }}（{{ fetch_weekday }}）{{ fetch_time }}時点）
+   USD/JPY：{{ "%.2f"|format(usdjpy) }}円（前日比 {{ "%+.2f"|format(usdjpy_diff) }}円）{% if forex_alert %}  ⚠️ 急変注意{% endif %}
 
    EUR/JPY：{{ "%.2f"|format(eurjpy) }}円
 
 📈 CPI（最新 {{ cpi_date }}）：総合 {{ "%.1f"|format(cpi_total) }}%  コア {{ "%.1f"|format(cpi_core) }}%
 
-🏭 短観・大企業製造業DI：{{ "%+d"|format(tankan_di) }}
+🏭 短観・大企業製造業DI：{{ "%+d"|format(tankan_di) }}（{{ tankan_date }}）
 
 📌 次回政策決定会合：{{ next_meeting_date }}
