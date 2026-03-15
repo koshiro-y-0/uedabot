@@ -4,6 +4,17 @@
 
 ---
 
+### feature/morning-review — 毎朝の振り返り・見通し機能追加
+- **箇所**: `daily_report.yml`, `fetch_indicators.py`, `generate_report.py`, `main.py`, `report.j2`
+- **内容**:
+  - cron を平日 08:30 JST（UTC 23:30）に変更
+  - `fetch_review_and_outlook()` を新規作成：昨日の振り返り（月曜は金曜）＋今日の見通しを生成
+  - `report.j2` に「振り返り」「見通し」セクションを追加
+  - `generate_report()` / `build_template_context()` に review_data 引数を追加
+  - `main.py` から振り返りデータを取得してレポートに反映
+
+---
+
 ## 2026-03-14
 
 ### TODO.md — 事前準備チェックボックス更新

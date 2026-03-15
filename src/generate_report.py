@@ -46,12 +46,12 @@ def _determine_rate_change_label(data: dict) -> str:
     return "変化なし"
 
 
-def build_template_context(data: dict) -> dict:
+def build_template_context(data: dict, review_data: dict = None) -> dict:
     """テンプレートに渡すコンテキストを構築する"""
     rate_diff = data["policy_rate"] - data["policy_rate_prev"]
     usdjpy_diff = data["usdjpy"] - data["usdjpy_prev"]
 
-    return {
+    context = {
         **data,
         "policy_comment": _determine_policy_comment(data),
         "policy_rate_changed": rate_diff != 0,
@@ -61,18 +61,24 @@ def build_template_context(data: dict) -> dict:
         "next_meeting_date": NEXT_MEETING,
     }
 
+    if review_data:
+        context.update(review_data)
 
-def generate_report(data: dict) -> str:
+    return context
+
+
+def generate_report(data: dict, review_data: dict = None) -> str:
     """
     経済指標データからレポート文字列を生成する
     Args:
         data: fetch_indicators.fetch_all() の返り値
+        review_data: fetch_review_and_outlook() の返り値（振り返り・見通し）
     Returns:
         通知用レポート文字列
     """
     env = Environment(loader=FileSystemLoader(str(TEMPLATE_DIR)))
     template = env.get_template("report.j2")
-    context = build_template_context(data)
+    context = build_template_context(data, review_data)
     return template.render(context)
 
 
@@ -107,9 +113,9 @@ def generate_alert(alert_type: str, data: dict) -> str:
 if __name__ == "__main__":
     # テスト用ダミーデータでレポート生成を確認
     dummy = {
-        "fetch_date": "2026年3月14日",
-        "fetch_weekday": "土",
-        "fetch_time": "09:00",
+        "fetch_date": "2026年3月16日",
+        "fetch_weekday": "月",
+        "fetch_time": "08:30",
         "policy_rate": 0.50,
         "policy_rate_prev": 0.50,
         "policy_rate_date": "2026-01",
@@ -123,4 +129,11 @@ if __name__ == "__main__":
         "eurjpy": 163.45,
         "usdjpy_prev": 151.80,
     }
-    print(generate_report(dummy))
+    review = {
+        "review_date": "2026年3月13日",
+        "review_weekday": "金",
+        "review_lines": ["為替は円安で小幅な動き、USD/JPY 151.80円 → 152.30円（+0.50円）", "政策金利は0.50%で据え置き"],
+        "outlook_lines": ["本日、注目の経済イベントはありません", "為替は安定的に推移しており、大きな変動は見込まれません"],
+        "is_monday": True,
+    }
+    print(generate_report(dummy, review))
