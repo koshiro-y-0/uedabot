@@ -167,11 +167,88 @@
 
 ---
 
+## Phase 10：日次データ蓄積（ブランチ: `feature/data-store`）
+
+- [ ] `data/` ディレクトリを作成
+- [ ] `src/data_store.py` を作成
+  - [ ] 日次指標データをCSVに追記保存する関数
+  - [ ] CSVから指定期間のデータを読み取る関数
+  - [ ] CSVが存在しない場合の初期化処理
+- [ ] `main.py` を改修 — レポート送信後にCSV保存を呼び出す
+- [ ] `daily_report.yml` を改修 — CSV保存後に `git commit & push` を追加
+- [ ] `tests/test_data_store.py` を作成
+- [ ] PR提出
+
+---
+
+## Phase 11：週間サマリー＋チャート画像（ブランチ: `feature/weekly-summary`）
+
+- [ ] `src/generate_weekly.py` を作成
+  - [ ] CSVから今週5日分のデータを集計
+  - [ ] 週間変動幅・高値/安値の算出
+  - [ ] 来週の注目イベントの抽出
+- [ ] `src/generate_chart.py` を作成
+  - [ ] matplotlib で USD/JPY 5日間チャート画像を生成
+  - [ ] PNG画像として一時保存
+- [ ] `notify.py` を改修 — LINE Image Message 送信に対応
+- [ ] `templates/weekly_summary.j2` を作成
+- [ ] `.github/workflows/weekly_summary.yml` を作成（金曜17:00 JST）
+- [ ] `requirements.txt` に matplotlib を追加
+- [ ] `tests/test_weekly.py` を作成
+- [ ] PR提出
+
+---
+
+## Phase 12：経済用語解説機能（ブランチ: `feature/glossary`）
+
+- [ ] `src/generate_glossary.py` を作成
+  - [ ] 6つの用語解説テンプレートを定義（CPI/短観/政策金利/為替/GDP/日銀）
+  - [ ] `解説:〇〇` コマンドのパース関数
+  - [ ] `解説:一覧` で選択可能な用語一覧を返す機能
+- [ ] `templates/glossary.j2` を作成
+- [ ] `api/webhook.py` を改修 — `解説:〇〇` コマンドに対応
+- [ ] Quick Reply に「📖 用語解説」ボタンを追加
+- [ ] `tests/test_glossary.py` を作成
+- [ ] PR提出
+
+---
+
+## Phase 13：リッチメニュー（ブランチ: `feature/richmenu`）
+
+- [ ] `src/generate_richmenu.py` を作成
+  - [ ] Pillow で 2500×843px のリッチメニュー画像を生成
+  - [ ] 6分割ボタン（為替/金利/CPI/短観/用語/注目）
+- [ ] リッチメニュー登録スクリプトを作成（LINE Messaging API経由）
+  - [ ] リッチメニューオブジェクト作成
+  - [ ] 画像アップロード
+  - [ ] デフォルトリッチメニューとして設定
+- [ ] `requirements.txt` に Pillow を追加
+- [ ] PR提出
+
+---
+
+## Phase 14：リアルタイム為替アラート（ブランチ: `feature/forex-alert`）
+
+- [ ] `src/forex_alert.py` を作成
+  - [ ] 現在の為替レートを取得
+  - [ ] CSVの直近レートと比較
+  - [ ] 閾値（デフォルト ±2円）超えの場合にアラート送信
+- [ ] `templates/forex_alert.j2` を作成
+- [ ] `.github/workflows/forex_alert.yml` を作成
+  - [ ] 平日09:00〜18:00 JSTに15分間隔で実行
+  - [ ] 閾値以下なら何もせず終了
+- [ ] `FOREX_ALERT_THRESHOLD` 環境変数対応
+- [ ] `tests/test_forex_alert.py` を作成
+- [ ] PR提出
+
+---
+
 ## 将来対応
 
 - [ ] Streamlit ダッシュボードの追加（指標の時系列グラフ可視化）
 - [ ] GitHub Pages でのレポートアーカイブ公開
 - [ ] Claude Haiku API によるAI要約機能の追加
+- [ ] 「詳細:比較」コマンドで前月比較データを表示
 
 ---
 
@@ -179,16 +256,24 @@
 
 ```
 main
-├── feature/fetch-indicators    # Phase 1 ✅
-├── feature/template-engine     # Phase 2 ✅
-├── feature/notify              # Phase 3 ✅
-├── feature/github-actions      # Phase 4 ✅
+├── feature/fetch-indicators    # Phase 1  ✅
+├── feature/template-engine     # Phase 2  ✅
+├── feature/notify              # Phase 3  ✅
+├── feature/github-actions      # Phase 4  ✅
 ├── fix/template-syntax-error   # Bug Fix  ✅
-├── feature/date-format         # Phase 5
-├── feature/detail-data         # Phase 6
-├── feature/quick-reply         # Phase 7
-├── feature/webhook             # Phase 8
-└── feature/detail-templates    # Phase 9
+├── feature/date-format         # Phase 5  ✅
+├── feature/detail-data         # Phase 6  ✅
+├── feature/quick-reply         # Phase 7  ✅
+├── feature/webhook             # Phase 8  ✅
+├── feature/detail-templates    # Phase 9  ✅
+├── feature/morning-review      # 振り返り  ✅
+├── fix/import-path             # Bug Fix  ✅
+├── fix/quick-reply-persist     # Bug Fix  ✅
+├── feature/data-store          # Phase 10
+├── feature/weekly-summary      # Phase 11
+├── feature/glossary            # Phase 12
+├── feature/richmenu            # Phase 13
+└── feature/forex-alert         # Phase 14
 ```
 
 各フェーズ完了後にPRを作成し、レビュー後に `main` へマージします。
