@@ -215,14 +215,14 @@
 
 ## Phase 13：リッチメニュー（ブランチ: `feature/richmenu`）
 
-- [ ] `src/generate_richmenu.py` を作成
-  - [ ] Pillow で 2500×843px のリッチメニュー画像を生成
-  - [ ] 6分割ボタン（為替/金利/CPI/短観/用語/注目）
-- [ ] リッチメニュー登録スクリプトを作成（LINE Messaging API経由）
-  - [ ] リッチメニューオブジェクト作成
-  - [ ] 画像アップロード
-  - [ ] デフォルトリッチメニューとして設定
-- [ ] `requirements.txt` に Pillow を追加
+- [x] `src/generate_richmenu.py` を作成
+  - [x] Pillow で 2500×843px のリッチメニュー画像を生成
+  - [x] 6分割ボタン（為替/金利/CPI/短観/用語/注目）
+- [x] リッチメニュー登録スクリプトを作成（LINE Messaging API経由）
+  - [x] リッチメニューオブジェクト作成
+  - [x] 画像アップロード
+  - [x] デフォルトリッチメニューとして設定
+- [x] `requirements.txt` に Pillow を追加
 - [ ] PR提出
 
 ---
