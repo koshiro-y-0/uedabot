@@ -4,6 +4,17 @@
 
 ---
 
+### Phase 13 — リッチメニュー
+- **箇所**: `src/generate_richmenu.py`（新規）, `tests/test_richmenu.py`（新規）, `requirements.txt`
+- **内容**:
+  - `generate_richmenu.py`: Pillow で 2500×843px リッチメニュー画像を生成（6分割: 為替/金利/CPI/短観/用語/注目）
+  - LINE Messaging API によるリッチメニュー登録機能（オブジェクト作成→画像アップロード→デフォルト設定）
+  - `--register` オプションで手動登録実行可能
+  - `requirements.txt` に Pillow>=10.0.0 を追加
+  - テスト14件作成（全109件通過）
+
+---
+
 ### Phase 12 — 経済用語解説機能
 - **箇所**: `src/generate_glossary.py`（新規）, `templates/glossary.j2`（新規）, `api/webhook.py`, `src/notify.py`, `tests/test_glossary.py`（新規）
 - **内容**:
