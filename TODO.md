@@ -201,14 +201,14 @@
 
 ## Phase 12：経済用語解説機能（ブランチ: `feature/glossary`）
 
-- [ ] `src/generate_glossary.py` を作成
-  - [ ] 6つの用語解説テンプレートを定義（CPI/短観/政策金利/為替/GDP/日銀）
-  - [ ] `解説:〇〇` コマンドのパース関数
-  - [ ] `解説:一覧` で選択可能な用語一覧を返す機能
-- [ ] `templates/glossary.j2` を作成
-- [ ] `api/webhook.py` を改修 — `解説:〇〇` コマンドに対応
-- [ ] Quick Reply に「📖 用語解説」ボタンを追加
-- [ ] `tests/test_glossary.py` を作成
+- [x] `src/generate_glossary.py` を作成
+  - [x] 6つの用語解説テンプレートを定義（CPI/短観/政策金利/為替/GDP/日銀）
+  - [x] `解説:〇〇` コマンドのパース関数
+  - [x] `解説:一覧` で選択可能な用語一覧を返す機能
+- [x] `templates/glossary.j2` を作成
+- [x] `api/webhook.py` を改修 — `解説:〇〇` コマンドに対応
+- [x] Quick Reply に「📖 用語解説」ボタンを追加
+- [x] `tests/test_glossary.py` を作成
 - [ ] PR提出
 
 ---

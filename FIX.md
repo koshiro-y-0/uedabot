@@ -4,6 +4,17 @@
 
 ---
 
+### Phase 12 — 経済用語解説機能
+- **箇所**: `src/generate_glossary.py`（新規）, `templates/glossary.j2`（新規）, `api/webhook.py`, `src/notify.py`, `tests/test_glossary.py`（新規）
+- **内容**:
+  - `generate_glossary.py`: 6用語（CPI/短観/政策金利/為替/GDP/日銀）の解説データ定義、エイリアス対応（「金利」→政策金利、「BOJ」→日銀など）
+  - `templates/glossary.j2`: 用語一覧モード＋詳細解説モードの切替テンプレート
+  - `webhook.py`: 「解説:〇〇」コマンドの解析・応答処理を追加
+  - `notify.py`: Quick Reply に「📖 用語解説」ボタンを追加（6個目）
+  - テスト25件作成（全95件通過）
+
+---
+
 ### Phase 11 — 週間サマリー＋チャート画像
 - **箇所**: `src/generate_weekly.py`（新規）, `src/generate_chart.py`（新規）, `src/weekly_main.py`（新規）, `templates/weekly_summary.j2`（新規）, `.github/workflows/weekly_summary.yml`（新規）, `src/notify.py`, `tests/test_weekly.py`（新規）, `requirements.txt`
 - **内容**:

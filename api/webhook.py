@@ -20,6 +20,7 @@ if PROJECT_ROOT not in sys.path:
 
 import requests
 from src.generate_detail import generate_detail_report, parse_detail_command
+from src.generate_glossary import parse_glossary_command, generate_glossary_list, generate_glossary_report
 from src.notify import _build_quick_reply
 
 LINE_CHANNEL_SECRET = os.getenv("LINE_CHANNEL_SECRET", "")
@@ -94,6 +95,20 @@ def handle_webhook_event(event: dict) -> None:
     text = message.get("text", "")
     reply_token = event.get("replyToken", "")
 
+    # 「解説:〇〇」コマンドを解析
+    glossary_key = parse_glossary_command(text)
+    if glossary_key is not None:
+        try:
+            if glossary_key == "一覧":
+                report = generate_glossary_list()
+            else:
+                report = generate_glossary_report(glossary_key)
+            reply_message(reply_token, report)
+        except Exception as e:
+            print(f"[ERROR] 用語解説生成エラー: {e}")
+            reply_message(reply_token, "⚠️ 用語解説の生成中にエラーが発生しました。")
+        return
+
     # 「詳細:〇〇」コマンドを解析
     category = parse_detail_command(text)
     if category is None:
@@ -105,7 +120,7 @@ def handle_webhook_event(event: dict) -> None:
         reply_message(reply_token, report)
     except Exception as e:
         print(f"[ERROR] 詳細レポート生成エラー: {e}")
-        reply_message(reply_token, f"⚠️ 詳細データの取得中にエラーが発生しました。\nしばらくしてからもう一度お試しください。")
+        reply_message(reply_token, "⚠️ 詳細データの取得中にエラーが発生しました。\nしばらくしてからもう一度お試しください。")
 
 
 class handler(BaseHTTPRequestHandler):
