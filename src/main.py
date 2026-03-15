@@ -13,6 +13,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from fetch_indicators import fetch_all, fetch_review_and_outlook
 from generate_report import generate_report, generate_alert
 from notify import send_all, check_alerts
+from data_store import save_daily
 
 
 def main():
@@ -35,6 +36,9 @@ def main():
     print(report)
     print("-------------------------")
     send_all(report, with_quick_reply=True)
+
+    # 5. 日次データをCSVに蓄積
+    save_daily(data)
 
 
 if __name__ == "__main__":

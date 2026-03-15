@@ -4,6 +4,16 @@
 
 ---
 
+### Phase 10 — 日次データ蓄積（CSV保存・自動コミット）
+- **箇所**: `src/data_store.py`（新規）, `src/main.py`, `daily_report.yml`, `data/`
+- **内容**:
+  - `data_store.py` 新規作成: CSV蓄積（save_daily）・読取（load_recent, load_week_data）
+  - `main.py` にデータ保存処理を追加（レポート送信後にCSV追記）
+  - `daily_report.yml` にCSV自動コミット・プッシュステップを追加
+  - 同日データの重複防止機能付き
+
+---
+
 ### fix/import-path — GitHub Actionsでのインポートパスエラー修正
 - **箇所**: `src/fetch_indicators.py` L251
 - **原因**: `from src.fetch_detail import ECONOMIC_EVENTS` — `main.py` が `sys.path` に `src/` を追加して実行するため `src.` プレフィックスがあると `ModuleNotFoundError` になる
