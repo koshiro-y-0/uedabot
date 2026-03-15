@@ -4,6 +4,17 @@
 
 ---
 
+### Phase 14 — リアルタイム為替アラート
+- **箇所**: `src/forex_alert.py`（新規）, `templates/forex_alert.j2`（新規）, `.github/workflows/forex_alert.yml`（新規）, `tests/test_forex_alert.py`（新規）
+- **内容**:
+  - `forex_alert.py`: Yahoo Finance で現在のUSD/JPYを取得 → CSVの直近レートと比較 → 閾値超えならLINE通知
+  - 閾値デフォルト±2円、環境変数 `FOREX_ALERT_THRESHOLD` で変更可能
+  - `forex_alert.j2`: 植田総裁口調のアラートメッセージテンプレート
+  - `forex_alert.yml`: 平日09:00〜18:00 JST に15分間隔で自動実行
+  - テスト18件作成（全127件通過）
+
+---
+
 ### Phase 13 — リッチメニュー
 - **箇所**: `src/generate_richmenu.py`（新規）, `tests/test_richmenu.py`（新規）, `requirements.txt`
 - **内容**:
