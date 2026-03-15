@@ -248,7 +248,7 @@ def fetch_review_and_outlook(data: dict) -> dict:
 
     # 経済イベントチェック（今日のイベントがあれば表示）
     today_str = now.strftime("%Y年%-m月%-d日")
-    from src.fetch_detail import ECONOMIC_EVENTS
+    from fetch_detail import ECONOMIC_EVENTS
     today_events = [e for e in ECONOMIC_EVENTS if e["date"] == today_str]
     if today_events:
         for ev in today_events:
