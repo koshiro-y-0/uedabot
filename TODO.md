@@ -183,18 +183,18 @@
 
 ## Phase 11：週間サマリー＋チャート画像（ブランチ: `feature/weekly-summary`）
 
-- [ ] `src/generate_weekly.py` を作成
-  - [ ] CSVから今週5日分のデータを集計
-  - [ ] 週間変動幅・高値/安値の算出
-  - [ ] 来週の注目イベントの抽出
-- [ ] `src/generate_chart.py` を作成
-  - [ ] matplotlib で USD/JPY 5日間チャート画像を生成
-  - [ ] PNG画像として一時保存
-- [ ] `notify.py` を改修 — LINE Image Message 送信に対応
-- [ ] `templates/weekly_summary.j2` を作成
-- [ ] `.github/workflows/weekly_summary.yml` を作成（金曜17:00 JST）
-- [ ] `requirements.txt` に matplotlib を追加
-- [ ] `tests/test_weekly.py` を作成
+- [x] `src/generate_weekly.py` を作成
+  - [x] CSVから今週5日分のデータを集計
+  - [x] 週間変動幅・高値/安値の算出
+  - [x] 来週の注目イベントの抽出
+- [x] `src/generate_chart.py` を作成
+  - [x] matplotlib で USD/JPY 5日間チャート画像を生成
+  - [x] PNG画像として一時保存
+- [x] `notify.py` を改修 — LINE Image Message 送信に対応
+- [x] `templates/weekly_summary.j2` を作成
+- [x] `.github/workflows/weekly_summary.yml` を作成（金曜17:00 JST）
+- [x] `requirements.txt` に matplotlib を追加
+- [x] `tests/test_weekly.py` を作成
 - [ ] PR提出
 
 ---
