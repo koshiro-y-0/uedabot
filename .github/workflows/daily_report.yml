@@ -31,3 +31,11 @@ jobs:
           LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: python src/main.py
+
+      - name: 日次データCSVをコミット・プッシュ
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/daily_indicators.csv
+          git diff --cached --quiet || git commit -m "data: $(date +%Y-%m-%d) の日次指標データを保存"
+          git push
