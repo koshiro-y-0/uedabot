@@ -19,4 +19,16 @@
 📌 次回政策決定会合：{{ next_meeting_date }}
 
 ━━━━━━━━━━━━━━━━━━━━
+🔄 {% if is_monday %}金曜日{% else %}昨日{% endif %}の振り返り（{{ review_date }}（{{ review_weekday }}））
+━━━━━━━━━━━━━━━━━━━━
+{% for line in review_lines %}
+・{{ line }}
+{% endfor %}
+━━━━━━━━━━━━━━━━━━━━
+🔮 今日の見通し
+━━━━━━━━━━━━━━━━━━━━
+{% for line in outlook_lines %}
+・{{ line }}
+{% endfor %}
+━━━━━━━━━━━━━━━━━━━━
 💡 詳しく知りたい項目をタップ ↓

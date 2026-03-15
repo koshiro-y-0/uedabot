@@ -204,6 +204,77 @@ def fetch_all() -> dict:
     }
 
 
+def _get_review_date(now: datetime) -> datetime:
+    """
+    振り返り対象日を返す（月曜なら前の金曜、それ以外は前日）
+    """
+    if now.weekday() == 0:  # 月曜
+        return now - timedelta(days=3)
+    return now - timedelta(days=1)
+
+
+def fetch_review_and_outlook(data: dict) -> dict:
+    """
+    昨日の振り返り（月曜なら金曜日）と今日の見通しを生成する
+    Args:
+        data: fetch_all() の返り値
+    Returns:
+        振り返りと見通しのdict
+    """
+    now = datetime.now()
+    review_date = _get_review_date(now)
+    review_weekday = WEEKDAY_JP[review_date.weekday()]
+    review_date_str = review_date.strftime("%Y年%-m月%-d日")
+
+    # 為替の前日変動
+    usdjpy_diff = data["usdjpy"] - data["usdjpy_prev"]
+    usdjpy_direction = "円安" if usdjpy_diff > 0 else "円高" if usdjpy_diff < 0 else "横ばい"
+
+    # 振り返りコメント生成
+    review_lines = []
+    if abs(usdjpy_diff) >= 1.0:
+        review_lines.append(f"為替は{usdjpy_direction}方向に大きく動き、USD/JPY {data['usdjpy_prev']:.2f}円 → {data['usdjpy']:.2f}円（{usdjpy_diff:+.2f}円）")
+    else:
+        review_lines.append(f"為替は{usdjpy_direction}で小幅な動き、USD/JPY {data['usdjpy_prev']:.2f}円 → {data['usdjpy']:.2f}円（{usdjpy_diff:+.2f}円）")
+
+    rate_diff = data["policy_rate"] - data["policy_rate_prev"]
+    if rate_diff != 0:
+        review_lines.append(f"政策金利が{data['policy_rate_prev']:.2f}% → {data['policy_rate']:.2f}%に変更")
+    else:
+        review_lines.append(f"政策金利は{data['policy_rate']:.2f}%で据え置き")
+
+    # 今日の見通し生成
+    outlook_lines = []
+
+    # 経済イベントチェック（今日のイベントがあれば表示）
+    today_str = now.strftime("%Y年%-m月%-d日")
+    from src.fetch_detail import ECONOMIC_EVENTS
+    today_events = [e for e in ECONOMIC_EVENTS if e["date"] == today_str]
+    if today_events:
+        for ev in today_events:
+            outlook_lines.append(f"本日のイベント：{ev['event']}")
+    else:
+        outlook_lines.append("本日、注目の経済イベントはありません")
+
+    # 為替トレンドに基づく見通し
+    if abs(usdjpy_diff) >= 1.5:
+        outlook_lines.append("為替の急変動が続く可能性があり、引き続き注意が必要です")
+    elif data["usdjpy"] >= 155:
+        outlook_lines.append("円安水準が続いており、為替介入への警戒感が意識されます")
+    elif data["usdjpy"] <= 140:
+        outlook_lines.append("円高方向への動きが見られ、輸出企業への影響に注目です")
+    else:
+        outlook_lines.append("為替は安定的に推移しており、大きな変動は見込まれません")
+
+    return {
+        "review_date": review_date_str,
+        "review_weekday": review_weekday,
+        "review_lines": review_lines,
+        "outlook_lines": outlook_lines,
+        "is_monday": now.weekday() == 0,
+    }
+
+
 if __name__ == "__main__":
     indicators = fetch_all()
     for key, value in indicators.items():
