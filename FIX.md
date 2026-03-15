@@ -4,6 +4,13 @@
 
 ---
 
+### fix/import-path — GitHub Actionsでのインポートパスエラー修正
+- **箇所**: `src/fetch_indicators.py` L251
+- **原因**: `from src.fetch_detail import ECONOMIC_EVENTS` — `main.py` が `sys.path` に `src/` を追加して実行するため `src.` プレフィックスがあると `ModuleNotFoundError` になる
+- **修正**: `from fetch_detail import ECONOMIC_EVENTS` に変更
+
+---
+
 ### feature/morning-review — 毎朝の振り返り・見通し機能追加
 - **箇所**: `daily_report.yml`, `fetch_indicators.py`, `generate_report.py`, `main.py`, `report.j2`
 - **内容**:
