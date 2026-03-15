@@ -80,6 +80,48 @@ def send_line(message: str, with_quick_reply: bool = False) -> bool:
         return False
 
 
+def send_line_image(image_url: str, preview_url: str = None) -> bool:
+    """
+    LINE Messaging API で画像を送信する
+    Args:
+        image_url: 画像のURL
+        preview_url: プレビュー画像のURL（省略時はimage_urlと同じ）
+    Returns:
+        送信成功ならTrue
+    """
+    if not LINE_CHANNEL_TOKEN or not LINE_USER_ID:
+        print("[WARN] LINE環境変数が未設定のため画像送信をスキップします")
+        return False
+
+    if preview_url is None:
+        preview_url = image_url
+
+    url = "https://api.line.me/v2/bot/message/push"
+    headers = {
+        "Authorization": f"Bearer {LINE_CHANNEL_TOKEN}",
+        "Content-Type": "application/json",
+    }
+    payload = {
+        "to": LINE_USER_ID,
+        "messages": [{
+            "type": "image",
+            "originalContentUrl": image_url,
+            "previewImageUrl": preview_url,
+        }],
+    }
+    try:
+        response = requests.post(url, json=payload, headers=headers, timeout=10)
+        response.raise_for_status()
+        print("[OK] LINE画像送信成功")
+        return True
+    except requests.HTTPError as e:
+        print(f"[ERROR] LINE画像送信失敗: {e.response.status_code} {e.response.text}")
+        return False
+    except Exception as e:
+        print(f"[ERROR] LINE画像送信エラー: {e}")
+        return False
+
+
 def send_discord(message: str) -> bool:
     """
     Discord Webhook にメッセージを送信する

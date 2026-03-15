@@ -4,6 +4,20 @@
 
 ---
 
+### Phase 11 — 週間サマリー＋チャート画像
+- **箇所**: `src/generate_weekly.py`（新規）, `src/generate_chart.py`（新規）, `src/weekly_main.py`（新規）, `templates/weekly_summary.j2`（新規）, `.github/workflows/weekly_summary.yml`（新規）, `src/notify.py`, `tests/test_weekly.py`（新規）, `requirements.txt`
+- **内容**:
+  - `generate_weekly.py`: 週間サマリー生成（始値/終値/高値/安値/変動幅/変動率）、植田総裁口調の週間コメント、来週の注目イベント抽出
+  - `generate_chart.py`: matplotlib で USD/JPY 週間折れ線チャート（800×400px PNG）を生成。英語曜日ラベルでフォント互換性を確保
+  - `weekly_main.py`: 金曜日のエントリーポイント（CSV読取→サマリー生成→チャート生成→LINE送信→チャート保存）
+  - `templates/weekly_summary.j2`: 週間サマリーテンプレート
+  - `weekly_summary.yml`: 金曜17:00 JST（UTC 08:00）に自動実行、チャート画像を自動コミット
+  - `notify.py` に `send_line_image()` を追加（LINE Image Message 送信対応）
+  - `requirements.txt` に matplotlib>=3.7.0 を追加
+  - テスト16件作成（70件全通過）
+
+---
+
 ### Phase 10 — 日次データ蓄積（CSV保存・自動コミット）
 - **箇所**: `src/data_store.py`（新規）, `src/main.py`, `daily_report.yml`, `data/`
 - **内容**:
