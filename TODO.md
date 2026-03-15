@@ -229,16 +229,16 @@
 
 ## Phase 14：リアルタイム為替アラート（ブランチ: `feature/forex-alert`）
 
-- [ ] `src/forex_alert.py` を作成
-  - [ ] 現在の為替レートを取得
-  - [ ] CSVの直近レートと比較
-  - [ ] 閾値（デフォルト ±2円）超えの場合にアラート送信
-- [ ] `templates/forex_alert.j2` を作成
-- [ ] `.github/workflows/forex_alert.yml` を作成
-  - [ ] 平日09:00〜18:00 JSTに15分間隔で実行
-  - [ ] 閾値以下なら何もせず終了
-- [ ] `FOREX_ALERT_THRESHOLD` 環境変数対応
-- [ ] `tests/test_forex_alert.py` を作成
+- [x] `src/forex_alert.py` を作成
+  - [x] 現在の為替レートを取得
+  - [x] CSVの直近レートと比較
+  - [x] 閾値（デフォルト ±2円）超えの場合にアラート送信
+- [x] `templates/forex_alert.j2` を作成
+- [x] `.github/workflows/forex_alert.yml` を作成
+  - [x] 平日09:00〜18:00 JSTに15分間隔で実行
+  - [x] 閾値以下なら何もせず終了
+- [x] `FOREX_ALERT_THRESHOLD` 環境変数対応
+- [x] `tests/test_forex_alert.py` を作成
 - [ ] PR提出
 
 ---

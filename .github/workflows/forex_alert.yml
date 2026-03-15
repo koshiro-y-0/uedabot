@@ -1,0 +1,32 @@
+name: 植田総裁Bot - 為替アラート
+
+on:
+  # 平日 09:00-18:00 JST に15分おき (= UTC 00:00-09:00)
+  schedule:
+    - cron: "*/15 0-9 * * 1-5"
+  # 手動実行（テスト・デバッグ用）
+  workflow_dispatch:
+
+jobs:
+  check-forex-alert:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: Python 3.11 をセットアップ
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: 依存ライブラリをインストール
+        run: pip install -r requirements.txt
+
+      - name: 為替アラートチェック
+        env:
+          LINE_CHANNEL_TOKEN: ${{ secrets.LINE_CHANNEL_TOKEN }}
+          LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
+          FOREX_ALERT_THRESHOLD: ${{ secrets.FOREX_ALERT_THRESHOLD }}
+        run: python src/forex_alert.py
