@@ -4,6 +4,13 @@
 
 ---
 
+### BUG FIX — 週間サマリーワークフローの git add エラー修正
+- **箇所**: `.github/workflows/weekly_summary.yml`
+- **原因**: CSVにデータがない場合チャート画像が生成されず、`git add data/*.png` がファイル不在で exit code 128 エラーになる
+- **修正**: `git add data/*.png 2>/dev/null || true` でファイルなしを許容。pushもコミット対象がある場合のみ実行
+
+---
+
 ### Phase 14 — リアルタイム為替アラート
 - **箇所**: `src/forex_alert.py`（新規）, `templates/forex_alert.j2`（新規）, `.github/workflows/forex_alert.yml`（新規）, `tests/test_forex_alert.py`（新規）
 - **内容**:
