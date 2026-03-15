@@ -21,6 +21,7 @@ QUICK_REPLY_ITEMS = [
     {"label": "📈 CPI詳細", "text": "詳細:CPI"},
     {"label": "🏭 短観詳細", "text": "詳細:短観"},
     {"label": "📰 今日の注目", "text": "詳細:注目"},
+    {"label": "📖 用語解説", "text": "解説:一覧"},
 ]
 
 
