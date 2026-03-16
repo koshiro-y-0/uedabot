@@ -7,6 +7,7 @@ import os
 import sys
 from datetime import datetime
 from pathlib import Path
+from tz import now_jst
 
 sys.path.insert(0, str(Path(__file__).parent))
 
@@ -75,7 +76,7 @@ def check_alert(current: float, last: float, threshold: float = None) -> dict | 
         "pct": pct,
         "direction": direction,
         "threshold": threshold,
-        "timestamp": datetime.now().strftime("%Y年%-m月%-d日 %H:%M"),
+        "timestamp": now_jst().strftime("%Y年%-m月%-d日 %H:%M"),
     }
 
 

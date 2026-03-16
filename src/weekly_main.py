@@ -15,6 +15,7 @@ from data_store import load_week_data
 from generate_weekly import generate_weekly_report
 from generate_chart import generate_forex_chart
 from notify import send_line, send_line_image
+from tz import now_jst
 
 
 def upload_chart_to_github(image_path: str) -> str:
@@ -27,9 +28,8 @@ def upload_chart_to_github(image_path: str) -> str:
         GitHub raw URL
     """
     import shutil
-    from datetime import datetime
 
-    filename = f"chart_weekly_{datetime.now().strftime('%Y%m%d')}.png"
+    filename = f"chart_weekly_{now_jst().strftime('%Y%m%d')}.png"
     dest = Path(__file__).parent.parent / "data" / filename
     shutil.copy2(image_path, dest)
 
@@ -69,8 +69,7 @@ def main():
 
         # GitHub raw URL で画像を送信（push 後に有効になる）
         repo = os.getenv("GITHUB_REPOSITORY", "koshiro-y-0/uedabot")
-        from datetime import datetime
-        filename = f"chart_weekly_{datetime.now().strftime('%Y%m%d')}.png"
+        filename = f"chart_weekly_{now_jst().strftime('%Y%m%d')}.png"
         image_url = f"https://raw.githubusercontent.com/{repo}/main/data/{filename}"
         send_line_image(image_url)
 

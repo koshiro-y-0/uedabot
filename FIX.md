@@ -4,6 +4,16 @@
 
 ---
 
+### BUG FIX — 全時刻表示をJST（日本標準時）に統一
+- **箇所**: `src/tz.py`（新規）, `src/fetch_indicators.py`, `src/fetch_detail.py`, `src/data_store.py`, `src/forex_alert.py`, `src/generate_weekly.py`, `src/weekly_main.py`, `.github/workflows/daily_report.yml`
+- **原因**: GitHub Actions（Ubuntu）はUTCで動作するため、`datetime.now()` がUTCの時刻を返し、レポートの配信時刻が「23:55配信」のように表示されていた
+- **修正**:
+  - `src/tz.py` を新規作成: `now_jst()` ヘルパー関数（UTC+9）
+  - 全ソースファイルの `datetime.now()` を `now_jst()` に置換（計16箇所）
+  - cron を `23:30` → `23:20` に変更（GitHub Actions の遅延を考慮し、08:30 JST に届くよう調整）
+
+---
+
 ### BUG FIX — 週間サマリーワークフローの git add エラー修正
 - **箇所**: `.github/workflows/weekly_summary.yml`
 - **原因**: CSVにデータがない場合チャート画像が生成されず、`git add data/*.png` がファイル不在で exit code 128 エラーになる

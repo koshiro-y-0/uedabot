@@ -10,6 +10,7 @@ import pandas as pd
 import yfinance as yf
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
+from tz import now_jst
 
 # 曜日の日本語表記
 WEEKDAY_JP = ["月", "火", "水", "木", "金", "土", "日"]
@@ -51,7 +52,7 @@ def fetch_policy_rate() -> dict:
     except Exception as e:
         print(f"[WARN] 政策金利取得エラー: {e}")
     # フォールバック（APIが不安定な場合）
-    return {"rate": 0.50, "date": datetime.now().strftime("%Y-%m"), "prev_rate": 0.50}
+    return {"rate": 0.50, "date": now_jst().strftime("%Y-%m"), "prev_rate": 0.50}
 
 
 def fetch_tankan_di() -> dict:
@@ -79,8 +80,9 @@ def fetch_tankan_di() -> dict:
             }
     except Exception as e:
         print(f"[WARN] 短観DI取得エラー: {e}")
-    quarter = (datetime.now().month - 1) // 3 + 1
-    return {"di": 12, "date": f"{datetime.now().year}-Q{quarter}"}
+    now = now_jst()
+    quarter = (now.month - 1) // 3 + 1
+    return {"di": 12, "date": f"{now.year}-Q{quarter}"}
 
 
 def fetch_cpi() -> dict:
@@ -178,7 +180,7 @@ def fetch_all() -> dict:
     cpi = fetch_cpi()
     forex = fetch_forex()
 
-    now = datetime.now()
+    now = now_jst()
     weekday = WEEKDAY_JP[now.weekday()]
 
     # 短観日付を読みやすいフォーマットに変換（例: "2025-Q4" → "2025年Q4（12月調査）"）
@@ -221,7 +223,7 @@ def fetch_review_and_outlook(data: dict) -> dict:
     Returns:
         振り返りと見通しのdict
     """
-    now = datetime.now()
+    now = now_jst()
     review_date = _get_review_date(now)
     review_weekday = WEEKDAY_JP[review_date.weekday()]
     review_date_str = review_date.strftime("%Y年%-m月%-d日")

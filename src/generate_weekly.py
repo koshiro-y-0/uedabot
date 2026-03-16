@@ -6,6 +6,7 @@ generate_weekly.py
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
+from tz import now_jst
 from jinja2 import Environment, FileSystemLoader
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -40,7 +41,11 @@ def _determine_weekly_comment(week_change: float, week_range: float) -> str:
 def _get_next_week_events(target_date: datetime = None) -> list[dict]:
     """来週の注目イベントを取得する"""
     if target_date is None:
-        target_date = datetime.now()
+        target_date = now_jst()
+
+    # timezone-naive に統一して日付比較
+    if target_date.tzinfo is not None:
+        target_date = target_date.replace(tzinfo=None)
 
     # 来週の月曜〜金曜
     next_monday = target_date + timedelta(days=(7 - target_date.weekday()))
@@ -86,7 +91,7 @@ def build_weekly_summary(week_data: list[dict], target_date: datetime = None) ->
         テンプレートに渡すコンテキスト辞書
     """
     if target_date is None:
-        target_date = datetime.now()
+        target_date = now_jst()
 
     if not week_data:
         return {

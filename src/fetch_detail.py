@@ -8,6 +8,7 @@ import requests
 import yfinance as yf
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
+from tz import now_jst
 
 load_dotenv()
 
@@ -46,7 +47,7 @@ def fetch_forex_detail() -> dict:
     為替の詳細データを取得する（5日間推移・週間高値/安値）
     Returns: USD/JPY・EUR/JPYの詳細情報dict
     """
-    now = datetime.now()
+    now = now_jst()
     weekday = WEEKDAY_JP[now.weekday()]
 
     try:
@@ -126,7 +127,7 @@ def fetch_rate_detail() -> dict:
     """
     金利の詳細データを取得する（政策金利推移・会合日程・変更履歴）
     """
-    now = datetime.now()
+    now = now_jst()
     weekday = WEEKDAY_JP[now.weekday()]
 
     # 現在の政策金利を取得
@@ -148,7 +149,7 @@ def fetch_cpi_detail() -> dict:
     """
     CPI の詳細データを取得する（総合/コア/食料エネルギー除く）
     """
-    now = datetime.now()
+    now = now_jst()
     weekday = WEEKDAY_JP[now.weekday()]
 
     from src.fetch_indicators import fetch_cpi
@@ -177,7 +178,7 @@ def fetch_tankan_detail() -> dict:
     """
     短観の詳細データを取得する（製造業/非製造業DI比較）
     """
-    now = datetime.now()
+    now = now_jst()
     weekday = WEEKDAY_JP[now.weekday()]
 
     from src.fetch_indicators import fetch_tankan_di, _format_tankan_date
@@ -201,7 +202,7 @@ def fetch_events_detail() -> dict:
     """
     経済イベントカレンダーを取得する
     """
-    now = datetime.now()
+    now = now_jst()
     weekday = WEEKDAY_JP[now.weekday()]
 
     # 今日以降のイベントをフィルタ
