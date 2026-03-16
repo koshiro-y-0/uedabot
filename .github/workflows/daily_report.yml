@@ -1,9 +1,9 @@
 name: 植田総裁Bot - 毎朝レポート配信
 
 on:
-  # 平日 08:30 JST (= UTC 23:30 前日)
+  # 平日 08:30 JST (= UTC 23:30 前日) ※GitHub Actions遅延を考慮し23:20に設定
   schedule:
-    - cron: "30 23 * * 0-4"
+    - cron: "20 23 * * 0-4"
   # 手動実行（テスト・デバッグ用）
   workflow_dispatch:
 

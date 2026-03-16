@@ -7,6 +7,7 @@ import csv
 import os
 from datetime import datetime, timedelta
 from pathlib import Path
+from tz import now_jst
 
 DATA_DIR = Path(__file__).parent.parent / "data"
 CSV_PATH = DATA_DIR / "daily_indicators.csv"
@@ -31,7 +32,7 @@ def save_daily(data: dict) -> None:
     Args:
         data: fetch_all() の返り値
     """
-    today = datetime.now().strftime("%Y-%m-%d")
+    today = now_jst().strftime("%Y-%m-%d")
 
     # 既に今日のデータがあれば何もしない
     if _has_date(today):
@@ -110,7 +111,7 @@ def load_week_data(target_date: datetime = None) -> list[dict]:
         辞書のリスト（日付昇順）
     """
     if target_date is None:
-        target_date = datetime.now()
+        target_date = now_jst()
 
     # 週の月曜日を計算
     monday = target_date - timedelta(days=target_date.weekday())
