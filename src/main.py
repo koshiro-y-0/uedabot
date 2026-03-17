@@ -10,13 +10,41 @@ from pathlib import Path
 # src/ ディレクトリをモジュール検索パスに追加
 sys.path.insert(0, str(Path(__file__).parent))
 
+import time
+from tz import now_jst
 from fetch_indicators import fetch_all, fetch_review_and_outlook
 from generate_report import generate_report, generate_alert
 from notify import send_all, check_alerts
 from data_store import save_daily
 
+TARGET_HOUR = 8
+TARGET_MINUTE = 30
+
+
+def _wait_until_target_time():
+    """08:30 JST まで待機する（最大35分）"""
+    now = now_jst()
+    target_hour = TARGET_HOUR
+    target_minute = TARGET_MINUTE
+
+    if now.hour == target_hour and now.minute >= target_minute:
+        return  # 既に過ぎている
+    if now.hour > target_hour:
+        return  # 既に過ぎている
+
+    target = now.replace(hour=target_hour, minute=target_minute, second=0, microsecond=0)
+    wait_seconds = (target - now).total_seconds()
+
+    if wait_seconds > 0 and wait_seconds <= 2100:  # 最大35分
+        print(f"[INFO] 08:30 JST まで {int(wait_seconds)} 秒待機します...")
+        time.sleep(wait_seconds)
+        print(f"[INFO] 08:30 JST になりました。レポート配信を開始します。")
+
 
 def main():
+    # 0. 08:30 JST まで待機
+    _wait_until_target_time()
+
     # 1. 経済指標を取得
     data = fetch_all()
 

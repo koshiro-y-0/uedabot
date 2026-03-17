@@ -13,10 +13,13 @@ from http.server import BaseHTTPRequestHandler
 import sys
 from pathlib import Path
 
-# プロジェクトルートをモジュール検索パスに追加
+# プロジェクトルートと src/ をモジュール検索パスに追加
 PROJECT_ROOT = str(Path(__file__).parent.parent)
+SRC_DIR = str(Path(__file__).parent.parent / "src")
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
+if SRC_DIR not in sys.path:
+    sys.path.insert(0, SRC_DIR)
 
 import requests
 from src.generate_detail import generate_detail_report, parse_detail_command

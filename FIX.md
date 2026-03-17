@@ -4,13 +4,17 @@
 
 ---
 
-### BUG FIX — 全時刻表示をJST（日本標準時）に統一
-- **箇所**: `src/tz.py`（新規）, `src/fetch_indicators.py`, `src/fetch_detail.py`, `src/data_store.py`, `src/forex_alert.py`, `src/generate_weekly.py`, `src/weekly_main.py`, `.github/workflows/daily_report.yml`
-- **原因**: GitHub Actions（Ubuntu）はUTCで動作するため、`datetime.now()` がUTCの時刻を返し、レポートの配信時刻が「23:55配信」のように表示されていた
+### BUG FIX — 全時刻表示をJST（日本標準時）に統一 + 08:30配信の正確化
+- **箇所**: `src/tz.py`（新規）, `src/main.py`, `src/fetch_indicators.py`, `src/fetch_detail.py`, `src/data_store.py`, `src/forex_alert.py`, `src/generate_weekly.py`, `src/weekly_main.py`, `api/webhook.py`, `.github/workflows/daily_report.yml`
+- **原因1**: GitHub Actions（Ubuntu）はUTCで動作するため、`datetime.now()` がUTCの時刻を返し、レポートの配信時刻が「23:55配信」のように表示されていた
+- **原因2**: GitHub Actionsのcronは5〜30分遅延するため、08:30ぴったりに届かなかった
+- **原因3**: JST修正で追加した `from tz import now_jst` がVercel環境で見つからず、詳細ボタンがエラーになっていた
 - **修正**:
   - `src/tz.py` を新規作成: `now_jst()` ヘルパー関数（UTC+9）
   - 全ソースファイルの `datetime.now()` を `now_jst()` に置換（計16箇所）
-  - cron を `23:30` → `23:20` に変更（GitHub Actions の遅延を考慮し、08:30 JST に届くよう調整）
+  - `src/main.py` に `_wait_until_target_time()` を追加: cronを08:00 JSTに前倒しし、スクリプト内で08:30 JSTまで待機
+  - `api/webhook.py` に `src/` ディレクトリをsys.pathに追加（Vercelでの `from tz import now_jst` 解決）
+  - cron を `23:00` UTC（= 08:00 JST）に変更、timeout-minutes: 45 を追加
 
 ---
 
