@@ -60,7 +60,8 @@ def check_alert(current: float, last: float, threshold: float = None) -> dict | 
         アラート情報の辞書（閾値内なら None）
     """
     if threshold is None:
-        threshold = float(os.getenv("FOREX_ALERT_THRESHOLD", DEFAULT_THRESHOLD))
+        env_val = os.getenv("FOREX_ALERT_THRESHOLD", "").strip()
+        threshold = float(env_val) if env_val else DEFAULT_THRESHOLD
 
     diff = current - last
     if abs(diff) <= threshold:
