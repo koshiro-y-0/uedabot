@@ -4,6 +4,13 @@
 
 ---
 
+### BUG FIX — 為替アラートの環境変数空文字エラー修正
+- **箇所**: `src/forex_alert.py`
+- **原因**: `FOREX_ALERT_THRESHOLD` 環境変数が空文字 `''` に設定されていた場合、`float('')` で `ValueError` が発生し全実行が失敗していた
+- **修正**: 環境変数が空文字の場合はデフォルト値（2.0円）を使用するよう修正
+
+---
+
 ### BUG FIX — 全時刻表示をJST（日本標準時）に統一 + 08:30配信の正確化
 - **箇所**: `src/tz.py`（新規）, `src/main.py`, `src/fetch_indicators.py`, `src/fetch_detail.py`, `src/data_store.py`, `src/forex_alert.py`, `src/generate_weekly.py`, `src/weekly_main.py`, `api/webhook.py`, `.github/workflows/daily_report.yml`
 - **原因1**: GitHub Actions（Ubuntu）はUTCで動作するため、`datetime.now()` がUTCの時刻を返し、レポートの配信時刻が「23:55配信」のように表示されていた
