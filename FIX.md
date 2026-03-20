@@ -4,6 +4,13 @@
 
 ---
 
+### BUG FIX — 週間サマリーのチャート画像がLINEに表示されない問題
+- **箇所**: `src/weekly_main.py`, `.github/workflows/weekly_summary.yml`
+- **原因**: チャート画像のGitHub raw URLをLINE送信した後にgit pushしていたため、LINEが画像を取得する時点ではURLに画像が存在しなかった
+- **修正**: ワークフローの実行順序を変更。①テキスト送信→②画像をgit push→③push完了後にLINE画像送信、の3ステップに分離
+
+---
+
 ### BUG FIX — 為替アラートの環境変数空文字エラー修正
 - **箇所**: `src/forex_alert.py`
 - **原因**: `FOREX_ALERT_THRESHOLD` 環境変数が空文字 `''` に設定されていた場合、`float('')` で `ValueError` が発生し全実行が失敗していた

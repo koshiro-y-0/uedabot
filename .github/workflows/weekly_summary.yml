@@ -28,6 +28,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: 週間サマリーを生成して送信
+        id: weekly
         env:
           LINE_CHANNEL_TOKEN: ${{ secrets.LINE_CHANNEL_TOKEN }}
           LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
@@ -41,3 +42,23 @@ jobs:
           git add data/*.png 2>/dev/null || true
           git diff --cached --quiet || git commit -m "data: $(date +%Y-%m-%d) 週間チャート画像を保存"
           git diff --cached --quiet && echo "コミット対象なし" || git push
+
+      - name: チャート画像をLINEに送信（push後）
+        if: steps.weekly.outputs.chart_path != ''
+        env:
+          LINE_CHANNEL_TOKEN: ${{ secrets.LINE_CHANNEL_TOKEN }}
+          LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          python -c "
+          import sys
+          sys.path.insert(0, 'src')
+          from notify import send_line_image
+          from tz import now_jst
+          import os
+          repo = os.getenv('GITHUB_REPOSITORY', 'koshiro-y-0/uedabot')
+          filename = f'chart_weekly_{now_jst().strftime(\"%Y%m%d\")}.png'
+          image_url = f'https://raw.githubusercontent.com/{repo}/main/data/{filename}'
+          print(f'[INFO] 画像URL: {image_url}')
+          send_line_image(image_url)
+          "
