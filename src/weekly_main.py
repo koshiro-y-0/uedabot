@@ -63,15 +63,15 @@ def main():
     # 4. テキストレポートを送信
     send_line(report, with_quick_reply=True)
 
-    # 5. チャート画像をリポジトリに保存
+    # 5. チャート画像をリポジトリに保存（push はワークフロー側で行う）
     if chart_path:
         saved_path = upload_chart_to_github(chart_path)
 
-        # GitHub raw URL で画像を送信（push 後に有効になる）
-        repo = os.getenv("GITHUB_REPOSITORY", "koshiro-y-0/uedabot")
-        filename = f"chart_weekly_{now_jst().strftime('%Y%m%d')}.png"
-        image_url = f"https://raw.githubusercontent.com/{repo}/main/data/{filename}"
-        send_line_image(image_url)
+        # チャートのパスを環境変数ファイルに出力（後続ステップで利用）
+        github_output = os.getenv("GITHUB_OUTPUT")
+        if github_output:
+            with open(github_output, "a") as f:
+                f.write(f"chart_path={saved_path}\n")
 
         # 元の一時ファイルを削除
         try:
