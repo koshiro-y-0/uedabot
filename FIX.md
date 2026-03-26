@@ -4,6 +4,15 @@
 
 ---
 
+### 改善 — 毎朝レポートに今後の注目イベントを統合
+- **箇所**: `src/fetch_indicators.py`, `templates/report.j2`, `src/notify.py`, `src/fetch_detail.py`
+- **内容**:
+  - 毎朝レポートに「今後の注目イベント」セクションを追加（過去のイベントは自動除外）
+  - Quick Reply から「今日の注目」ボタンを削除（毎朝レポートに統合されたため不要）
+  - `fetch_events_detail()` も過去イベントをフィルタするよう修正
+
+---
+
 ### BUG FIX — 週間サマリーのチャート画像がLINEに表示されない問題
 - **箇所**: `src/weekly_main.py`, `.github/workflows/weekly_summary.yml`
 - **原因**: チャート画像のGitHub raw URLをLINE送信した後にgit pushしていたため、LINEが画像を取得する時点ではURLに画像が存在しなかった

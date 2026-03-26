@@ -258,6 +258,23 @@ def fetch_review_and_outlook(data: dict) -> dict:
     else:
         outlook_lines.append("本日、注目の経済イベントはありません")
 
+    # 今後の注目イベント（今日以降のものをフィルタ）
+    upcoming_events = []
+    for ev in ECONOMIC_EVENTS:
+        try:
+            for fmt in ["%Y年%m月%d日", "%Y年%-m月%-d日"]:
+                try:
+                    ev_date = datetime.strptime(ev["date"], fmt)
+                    break
+                except ValueError:
+                    continue
+            else:
+                continue
+            if ev_date.date() >= now.date():
+                upcoming_events.append(ev)
+        except Exception:
+            continue
+
     # 為替トレンドに基づく見通し
     if abs(usdjpy_diff) >= 1.5:
         outlook_lines.append("為替の急変動が続く可能性があり、引き続き注意が必要です")
@@ -274,6 +291,7 @@ def fetch_review_and_outlook(data: dict) -> dict:
         "review_lines": review_lines,
         "outlook_lines": outlook_lines,
         "is_monday": now.weekday() == 0,
+        "upcoming_events": upcoming_events,
     }
 
 

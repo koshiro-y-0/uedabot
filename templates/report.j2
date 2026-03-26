@@ -30,5 +30,12 @@
 {% for line in outlook_lines %}
 ・{{ line }}
 {% endfor %}
+{% if upcoming_events %}━━━━━━━━━━━━━━━━━━━━
+📅 今後の注目イベント
+━━━━━━━━━━━━━━━━━━━━
+{% for ev in upcoming_events %}
+📌 {{ ev.date }}：{{ ev.event }}
+{%- endfor %}
+{% endif %}
 ━━━━━━━━━━━━━━━━━━━━
 💡 詳しく知りたい項目をタップ ↓
