@@ -205,10 +205,22 @@ def fetch_events_detail() -> dict:
     now = now_jst()
     weekday = WEEKDAY_JP[now.weekday()]
 
-    # 今日以降のイベントをフィルタ
+    # 今日以降のイベントのみフィルタ
     upcoming = []
     for ev in ECONOMIC_EVENTS:
-        upcoming.append(ev)
+        try:
+            for fmt in ["%Y年%m月%d日", "%Y年%-m月%-d日"]:
+                try:
+                    ev_date = datetime.strptime(ev["date"], fmt)
+                    break
+                except ValueError:
+                    continue
+            else:
+                continue
+            if ev_date.date() >= now.date():
+                upcoming.append(ev)
+        except Exception:
+            continue
 
     return {
         "fetch_date": now.strftime("%Y年%-m月%-d日"),
