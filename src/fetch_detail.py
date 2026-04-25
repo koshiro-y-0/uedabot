@@ -55,7 +55,7 @@ def fetch_forex_detail() -> dict:
         eurjpy = yf.Ticker("EURJPY=X")
 
         usdjpy_hist = usdjpy.history(period="5d")
-        eurjpy_hist = eurjpy.history(period="2d")
+        eurjpy_hist = eurjpy.history(period="5d")
 
         usdjpy_closes = [round(float(c), 2) for c in usdjpy_hist["Close"]]
         usdjpy_now = usdjpy_closes[-1] if usdjpy_closes else 152.30

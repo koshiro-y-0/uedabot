@@ -135,8 +135,8 @@ def fetch_forex() -> dict:
         usdjpy = yf.Ticker("USDJPY=X")
         eurjpy = yf.Ticker("EURJPY=X")
 
-        usdjpy_hist = usdjpy.history(period="2d")
-        eurjpy_hist = eurjpy.history(period="1d")
+        usdjpy_hist = usdjpy.history(period="5d")
+        eurjpy_hist = eurjpy.history(period="5d")
 
         usdjpy_now = round(float(usdjpy_hist["Close"].iloc[-1]), 2)
         usdjpy_prev = round(float(usdjpy_hist["Close"].iloc[-2]), 2) if len(usdjpy_hist) >= 2 else usdjpy_now
